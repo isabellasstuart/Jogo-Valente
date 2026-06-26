@@ -60,8 +60,9 @@ void inicializa_objetos(personagem *merida, hud *h,
                              "imagens/sprites/fim.png");
 }
 
-estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
+estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, float *volume) {
     ALLEGRO_BITMAP *cenario = al_load_bitmap("imagens/fundo_final.png");
+    ALLEGRO_AUDIO_STREAM *musica = al_load_audio_stream("audio/tela_jogo.ogg", 4, 2048);
     ALLEGRO_TIMER *timer    = al_create_timer(1.0 / 60.0);
     ALLEGRO_EVENT evento;
     estado proximo = TELA_JOGO;
@@ -83,6 +84,10 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
     cw = al_get_bitmap_width(cenario);
     ch = al_get_bitmap_height(cenario);
 
+    al_set_audio_stream_playmode(musica, ALLEGRO_PLAYMODE_LOOP);
+    al_attach_audio_stream_to_mixer(musica, al_get_default_mixer());
+    al_set_audio_stream_gain(musica, *volume);
+
     while (!fim) {
         al_wait_for_event(fila, &evento);
 
@@ -90,6 +95,20 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
             proximo = SAIR; 
             fim = 1;
         }
+
+        if (evento.keyboard.keycode == ALLEGRO_KEY_F3) {
+            *volume += 0.05f;
+            if (*volume > 1.0f) 
+                *volume = 1.0f;
+            al_set_audio_stream_gain(musica, *volume);
+        }
+        if (evento.keyboard.keycode == ALLEGRO_KEY_F2) {
+            *volume -= 0.05f;
+            if (*volume < 0.0f) 
+                *volume = 0.0f;
+            al_set_audio_stream_gain(musica, *volume);
+        }
+
         if (evento.type == ALLEGRO_EVENT_KEY_DOWN &&
             evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
             proximo = TELA_INICIAL; 
@@ -105,10 +124,15 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
             if (camera_x > LARGURA_MUNDO - LARGURA_TELA)
                 camera_x = LARGURA_MUNDO - LARGURA_TELA;
 
-            for (int i = 0; i < NUM_OBSTACULOS; i++) {
+            atualiza_urso(&merida, &obstaculos[0], camera_x, FRAMES_URSO_ATIVADO);
+            processa_colisao(&merida, &obstaculos[0]);
+            for (int i = 1; i < NUM_OBSTACULOS; i++) {
                 atualiza_obstaculo(&obstaculos[i], camera_x);
-                processa_colisao(&merida, &obstaculos[i]);
+                processa_colisao(&merida, &obstaculos[i]);  
             }
+
+            if (!obstaculos[0].merida_passou && merida.x > obstaculos[0].x)
+                obstaculos[0].merida_passou = 1;
 
             for (int i = 0; i < NUM_ESCADAS; i++)
                 processa_colisao_escada(&merida, &escadas[i]);
@@ -147,8 +171,9 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
             for (int i = 0; i < NUM_WISPS; i++)
                 desenha_wisp(&wisps[i], camera_x);
 
-            for (int i = 0; i < NUM_OBSTACULOS; i++)
+            for (int i = 1; i < NUM_OBSTACULOS; i++)  
                 desenha_obstaculo(&obstaculos[i], camera_x);
+            desenha_urso(&obstaculos[0], camera_x);
 
             desenha_linha_chegada(&l, camera_x);
             desenha_personagem(&merida, camera_x);
@@ -178,5 +203,6 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
     destroi_personagem(&merida);
     destroi_hud(&h);
     al_destroy_bitmap(cenario);
+    al_destroy_audio_stream(musica);
     return proximo;
 }

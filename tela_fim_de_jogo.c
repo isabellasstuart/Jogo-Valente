@@ -2,9 +2,10 @@
 #include "tela_fim_de_jogo.h"
 #include "tela_inicial.h"
 
-estado executa_tela_fim_de_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila) {
+estado executa_tela_fim_de_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, float *volume) {
     ALLEGRO_BITMAP *fundo = al_load_bitmap("imagens/tela_fim_de_jogo.png"), *botao = al_load_bitmap("imagens/botao2.png"), 
     *titulo = al_load_bitmap("imagens/fim_de_jogo.png");
+    ALLEGRO_AUDIO_STREAM *musica = al_load_audio_stream("audio/tela_fim_de_jogo.ogg", 4, 2048);
     ALLEGRO_EVENT evento;
     ALLEGRO_FONT *fonte = NULL;
     ALLEGRO_COLOR cor_texto_jogar, cor_texto_sair;
@@ -26,6 +27,10 @@ estado executa_tela_fim_de_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fi
     cor_texto_jogar = al_map_rgb(90, 90, 90);
     cor_texto_sair = al_map_rgb(90, 90, 90);
 
+    al_set_audio_stream_playmode(musica, ALLEGRO_PLAYMODE_LOOP);
+    al_attach_audio_stream_to_mixer(musica, al_get_default_mixer());
+    al_set_audio_stream_gain(musica, *volume);
+
     while (!fim) {
         al_wait_for_event(fila, &evento);
 
@@ -35,6 +40,19 @@ estado executa_tela_fim_de_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fi
 
             proximo = SAIR;
             fim = 1;
+        }
+
+        if (evento.keyboard.keycode == ALLEGRO_KEY_F3) {
+            *volume += 0.05f;
+            if (*volume > 1.0f) 
+                *volume = 1.0f;
+            al_set_audio_stream_gain(musica, *volume);
+        }
+        if (evento.keyboard.keycode == ALLEGRO_KEY_F2) {
+            *volume -= 0.05f;
+            if (*volume < 0.0f) 
+                *volume = 0.0f;
+            al_set_audio_stream_gain(musica, *volume);
         }
 
         if (evento.type == ALLEGRO_EVENT_MOUSE_AXES) {
@@ -86,6 +104,9 @@ estado executa_tela_fim_de_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fi
         al_flip_display();
     }
 
+    al_destroy_audio_stream(musica);
     al_destroy_bitmap(fundo);
+    al_destroy_bitmap(botao);
+    al_destroy_font(fonte);
     return proximo;
 }

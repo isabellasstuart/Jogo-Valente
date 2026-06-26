@@ -19,6 +19,7 @@
 
 #define FRAME_W_URSO 255
 #define FRAME_H_URSO 400
+#define FRAMES_URSO_ATIVADO 1
 
 #define FRAME_W_URSO_BEBE 170
 #define FRAME_H_URSO_BEBE 100
@@ -66,6 +67,7 @@ typedef struct {
     float vel_x;
     float vel_y;
     float x_ativacao;
+    int merida_passou; 
     int direcao_y;
     int ativo;
     int n_frames;
@@ -80,7 +82,9 @@ void inicializa_obstaculo(obstaculo *o, float x, float y,
                           const char *caminho_img, int n_frames,
                           int frame_h, int frame_w);
 void atualiza_obstaculo(obstaculo *o, float camera_x);
+void atualiza_urso(personagem *p, obstaculo *o, float camera_x, int n_frames_ativado);
 void desenha_obstaculo(obstaculo *o, float camera_x);
+void desenha_urso(obstaculo *o, float camera_x);
 void destroi_obstaculo(obstaculo *o);
 
 #endif

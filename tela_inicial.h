@@ -5,6 +5,7 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
 #include "jogo.h"
 
 #define TEXTO_JOGAR_TAM 80
@@ -13,6 +14,6 @@
 #define BOTAO_JOGAR_Y   (ALTURA_TELA / 2)
 #define BOTAO_SAIR_X    BOTAO_JOGAR_X
 
-estado executa_tela_inicial(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila);
+estado executa_tela_inicial(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, float *volume);
 
 #endif

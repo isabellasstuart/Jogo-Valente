@@ -5,8 +5,9 @@
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
+#include <allegro5/allegro_audio.h>
 #include "jogo.h"
 
-estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila);
+estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, float *volume);
 
 #endif

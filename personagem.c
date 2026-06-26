@@ -39,33 +39,51 @@ void atualiza_personagem(personagem *p) {
     estado_personagem novo_estado;
     int mover = 0, agachar;
 
-    if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT)) {
+    if (al_key_down(&teclado, ALLEGRO_KEY_RIGHT) ||
+        al_key_down(&teclado, ALLEGRO_KEY_D)) {
+
         p -> x += VELOCIDADE_X;
         p -> virado = 0;
         mover = 1;
     }
-    if (al_key_down(&teclado, ALLEGRO_KEY_LEFT)) {
+    if (al_key_down(&teclado, ALLEGRO_KEY_LEFT) ||
+        al_key_down(&teclado, ALLEGRO_KEY_A)) {
+
         p -> x -= VELOCIDADE_X;
         p -> virado = 1;
         mover = 1;
     }
 
-    agachar = al_key_down(&teclado, ALLEGRO_KEY_DOWN);
+    if (al_key_down(&teclado, ALLEGRO_KEY_DOWN) || 
+        al_key_down(&teclado, ALLEGRO_KEY_S))
+
+        agachar = 1;
+    else
+        agachar = 0;
 
     if (p -> na_escada) {
         p -> vel_y   = 0;
         p -> no_chao = 0;
 
-        if (al_key_down(&teclado, ALLEGRO_KEY_UP))
+        if (al_key_down(&teclado, ALLEGRO_KEY_UP) ||
+            al_key_down(&teclado, ALLEGRO_KEY_W))
+
             p -> y -= VELOCIDADE_X;
-        if (al_key_down(&teclado, ALLEGRO_KEY_DOWN))
+
+        if (al_key_down(&teclado, ALLEGRO_KEY_DOWN) ||
+            al_key_down(&teclado, ALLEGRO_KEY_S))
+
             p -> y += VELOCIDADE_X;
 
     } else {
-        if (al_key_down(&teclado, ALLEGRO_KEY_UP) && (p -> no_chao)) {
+        if ((al_key_down(&teclado, ALLEGRO_KEY_UP) ||
+             al_key_down(&teclado, ALLEGRO_KEY_W)) && 
+            (p -> no_chao)) {
+
             p -> vel_y = FORCA_PULO;
             p -> no_chao = 0;
         }
+
         p -> vel_y += GRAVIDADE;
         p -> y += p -> vel_y;
     }
