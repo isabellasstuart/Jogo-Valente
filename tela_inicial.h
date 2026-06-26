@@ -7,11 +7,11 @@
 #include <allegro5/allegro_ttf.h>
 #include "jogo.h"
 
-#define TEXTO_JOGAR_TAM 100
-#define TEXTO_JOGAR_X LARGURA_TELA / 2
-#define TEXTO_JOGAR_Y 730
-#define BOTAO_JOGAR_X TEXTO_JOGAR_X - (TEXTO_JOGAR_X / 5.1)
-#define BOTAO_JOGAR_Y TEXTO_JOGAR_Y - 10
+#define TEXTO_JOGAR_TAM 80
+#define ESPACO_BOTOES   20
+#define BOTAO_JOGAR_X   (LARGURA_TELA / 6)
+#define BOTAO_JOGAR_Y   (ALTURA_TELA / 2)
+#define BOTAO_SAIR_X    BOTAO_JOGAR_X
 
 estado executa_tela_inicial(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila);
 

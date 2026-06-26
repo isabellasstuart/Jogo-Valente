@@ -5,9 +5,12 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 #include <allegro5/allegro_image.h>
+#include <allegro5/allegro_primitives.h>
 #include "jogo.h"
 #include "tela_inicial.h"
 #include "tela_jogo.h"
+#include "tela_game_over.h"
+#include "tela_fim_de_jogo.h"
 
 int main() {
     al_init();
@@ -16,6 +19,7 @@ int main() {
     al_init_ttf_addon();
     al_install_mouse();
     al_install_keyboard();
+    al_init_primitives_addon();
 
     ALLEGRO_DISPLAY *janela = al_create_display(LARGURA_TELA, ALTURA_TELA);
     ALLEGRO_EVENT_QUEUE *fila = al_create_event_queue();
@@ -35,6 +39,12 @@ int main() {
             case TELA_JOGO:
                 estado_atual = executa_tela_jogo(janela, fila);
                 break;
+            case TELA_GAME_OVER:
+                estado_atual = executa_tela_game_over(janela, fila);
+                break;
+            case TELA_FIM_DE_JOGO:
+                estado_atual = executa_tela_fim_de_jogo(janela, fila);
+                break;  
             default:
                 estado_atual = SAIR;
         }

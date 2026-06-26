@@ -4,32 +4,31 @@ LDLIBS  = $(shell pkg-config allegro_dialog-5 allegro_primitives-5 allegro_audio
 MAIN    = main
 ENTREGA = $(MAIN)
 
-# lista de arquivos de cabeçalho (a completar)
-HDR = tela_inicial.h tela_jogo.h personagem.h
+HDR = tela_inicial.h tela_jogo.h personagem.h obstaculos.h colisao.h hud.h tela_game_over.h interacoes.h tela_fim_de_jogo.h
 
-# lista de arquivos-objeto (a completar)
-OBJ = tela_inicial.o tela_jogo.o personagem.o
+OBJ = tela_inicial.o tela_jogo.o personagem.o obstaculos.o colisao.o hud.o tela_game_over.o interacoes.o tela_fim_de_jogo.o
 
-# construir o executável
 $(MAIN): $(MAIN).o $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $^ $(LDLIBS)
 
-# construir os arquivos-objeto (a completar)
 $(MAIN).o: $(MAIN).c $(HDR)
 
 tela_inicial.o: tela_inicial.c tela_inicial.h
 tela_jogo.o: tela_jogo.c tela_jogo.h
 personagem.o: personagem.c personagem.h
+obstaculos.o: obstaculos.c obstaculos.h
+colisao.o: colisao.c colisao.h
+hud.o: hud.c hud.h
+tela_game_over.o: tela_game_over.c tela_game_over.h
+interacoes.o: interacoes.c interacoes.h
+tela_fim_de_jogo.o: tela_fim_de_jogo.c tela_fim_de_jogo.h
 
-# executar
 run: $(MAIN)
 	./$(MAIN)
 
-# testar no Valgrind
 valgrind: $(MAIN)
 	valgrind --leak-check=full --track-origins=yes ./$(MAIN)
 
-# gerar arquivo TGZ para entregar
 tgz: clean
 	-mkdir -p /tmp/$(USER)/$(ENTREGA)
 	chmod 0700 /tmp/$(USER)/$(ENTREGA)
@@ -38,6 +37,5 @@ tgz: clean
 	rm -rf /tmp/$(USER)
 	@echo "Arquivo $(ENTREGA).tgz criado para entrega"
 
-# limpar arquivos temporários
 clean:
 	rm -f *~ $(OBJ) $(MAIN).o $(MAIN) /tmp/$(USER)/$(ENTREGA) $(ENTREGA).tgz
