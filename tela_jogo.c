@@ -73,7 +73,7 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, flo
     escada escadas[NUM_ESCADAS];
     wisp wisps[NUM_WISPS];
     linha_chegada l;
-    int fim = 0, desenhar = 0, cw, ch;
+    int fim = 0, desenhar = 0, cw, ch, pausa = 0;
     float camera_x = 0, sx, sw;
 
     al_register_event_source(fila, al_get_timer_event_source(timer));
@@ -96,26 +96,33 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, flo
             fim = 1;
         }
 
-        if (evento.keyboard.keycode == ALLEGRO_KEY_F3) {
-            *volume += 0.05f;
-            if (*volume > 1.0f) 
-                *volume = 1.0f;
-            al_set_audio_stream_gain(musica, *volume);
-        }
-        if (evento.keyboard.keycode == ALLEGRO_KEY_F2) {
-            *volume -= 0.05f;
-            if (*volume < 0.0f) 
-                *volume = 0.0f;
-            al_set_audio_stream_gain(musica, *volume);
+        if (evento.type == ALLEGRO_EVENT_KEY_DOWN) {
+            if (evento.keyboard.keycode == ALLEGRO_KEY_F3) {
+                *volume += 0.05f;
+                if (*volume > 1.0f) 
+                    *volume = 1.0f;
+                al_set_audio_stream_gain(musica, *volume);
+            }
+
+            if (evento.keyboard.keycode == ALLEGRO_KEY_F2) {
+                *volume -= 0.05f;
+                if (*volume < 0.0f) 
+                    *volume = 0.0f;
+                al_set_audio_stream_gain(musica, *volume);
+            }
+
+            if (evento.keyboard.keycode == ALLEGRO_KEY_P) {
+                pausa = !pausa;
+                al_set_audio_stream_playing(musica, !pausa);
+            }
+
+            if (evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
+                proximo = TELA_INICIAL; 
+                fim = 1;
+            }
         }
 
-        if (evento.type == ALLEGRO_EVENT_KEY_DOWN &&
-            evento.keyboard.keycode == ALLEGRO_KEY_ESCAPE) {
-            proximo = TELA_INICIAL; 
-            fim = 1;
-        }
-
-        if (evento.type == ALLEGRO_EVENT_TIMER) {
+        if (evento.type == ALLEGRO_EVENT_TIMER && !pausa) {
             atualiza_personagem(&merida);
 
             camera_x = merida.x - LARGURA_TELA / 2.0f + FRAME_W / 2.0f;
@@ -180,6 +187,7 @@ estado executa_tela_jogo(ALLEGRO_DISPLAY *janela, ALLEGRO_EVENT_QUEUE *fila, flo
             desenha_hud(&h, &merida);
 
             al_flip_display();
+
             desenhar = 0;
         }
     }
