@@ -22,8 +22,6 @@ itens pelo caminho. O objetivo é sobreviver até a linha de chegada.
 - **Rolling background:** cenário com rolagem contínua
 - **HUD:** exibição de vidas restantes. Há um total de 3 vidas + vida extra
 
-### Telas
-
 ## Telas
 
 ### Tela inicial
