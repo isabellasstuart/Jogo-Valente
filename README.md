@@ -24,10 +24,19 @@ itens pelo caminho. O objetivo é sobreviver até a linha de chegada.
 
 ### Telas
 
-- **Tela inicial:** botões "JOGAR" e "SAIR"
-- **Tela de jogo:** cenário principal com personagem, obstáculos e HUD
-- **Tela de vitória:** exibida ao completar o jogo, com botões "INÍCIO" e "SAIR"
-- **Tela de game over:** exibida ao perder todas as vidas, com botões "INÍCIO" e "SAIR"
+## Telas
+
+### Tela inicial
+![Tela inicial](docs/screenshots/tela_inicial.png)
+
+### Tela de jogo
+![Tela de jogo](docs/screenshots/tela_jogo.png)
+
+### Tela de vitória
+![Tela de vitória](docs/screenshots/tela_vitoria.png)
+
+### Tela de derrota
+![Tela de derrota](docs/screenshots/tela_game_over.png)
 
 ## Ferramentas
 
