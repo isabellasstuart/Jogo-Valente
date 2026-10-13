@@ -1,14 +1,15 @@
 # Jogo "Valente"
 
+![Projeto Concluído](https://img.shields.io/badge/Projeto%20Conclu%C3%ADdo-brightgreen)
+
 Jogo de plataforma temático de *Valente*, desenvolvido como trabalho
-final da disciplina de **Programação 2 (CI1002)** da UFPR.
-Desenvolvido em C com a biblioteca Allegro 5.
+final da disciplina de **Programação 2 (CI1002)** da Universidade Federal 
+do Paraná. Desenvolvido em C com a biblioteca Allegro 5.
 
 ## Sobre
 
-O jogador controla a personagem Merida em um cenário com rolagem
-contínua, desviando de obstáculos e coletando itens pelo caminho.
-O objetivo é sobreviver até a linha de chegada.
+O jogador controla a personagem Merida desviando de obstáculos e coletando 
+itens pelo caminho. O objetivo é sobreviver até a linha de chegada.
 
 ### Mecânicas do jogo
 
@@ -19,12 +20,12 @@ O objetivo é sobreviver até a linha de chegada.
 - **Wisp:** item que fornece vida extra
 - **Urso:** obstáculo com interação especial
 - **Rolling background:** cenário com rolagem contínua
-- **HUD:** exibição de vidas restantes
+- **HUD:** exibição de vidas restantes. Há um total de 3 vidas + vida extra
 
 ### Telas
 
 - **Tela inicial:** botões "JOGAR" e "SAIR"
-- **Tela de jogo:** cenário principal com personagem, obstáculos, tela de fundo e HUD
+- **Tela de jogo:** cenário principal com personagem, obstáculos e HUD
 - **Tela de vitória:** exibida ao completar o jogo, com botões "INÍCIO" e "SAIR"
 - **Tela de game over:** exibida ao perder todas as vidas, com botões "INÍCIO" e "SAIR"
 
@@ -68,6 +69,6 @@ Os recursos visuais e sonoros utilizados no jogo incluem:
 
 ## Créditos
 
-Projeto concebido pelos professores **Diego Addan** e **Andrey Pimentel**, para a disciplina CI1002 da UFPR.
+Projeto idealizado pelos professores **Diego Addan** e **Andrey Pimentel**, para a disciplina CI1002 da UFPR.
 
 Implementação desenvolvida por **Isabella dos Santos Stuart**.
